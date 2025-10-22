@@ -37,4 +37,6 @@
             echo "El número " . $numero . " no es primo.<br>";
         }
 
+
+        
 ?>
