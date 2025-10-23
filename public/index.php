@@ -10,6 +10,7 @@
         
     ];
     
+    require_once "../app/functions.php";
     include "../app/views/header.php";
 ?>  
        
@@ -18,32 +19,10 @@
             <ul>
                 <?php
                     foreach ($tasks as $task) {
-                        $taskClasses = "task-item";
-                        if ($task["completed"]) {
-                            $taskClasses .= " completed";
-                        }
-
-                        switch ($task["priority"]) {
-                            case "Alta":
-                                $taskClasses .= " priority-alta";
-                                break;
-                            case "Media":
-                                $taskClasses .= " priority-media";
-                                break;
-                            case "Baja":
-                                $taskClasses .= " priority-baja";
-                                break;
-                        }
-                        ?>
-                        <li class="<?php echo $taskClasses; ?>">
-                            <?php echo $task['title']; ?>
-                        </li>
-                <?php
+                        echo renderizarTarea($task);
                     }
                 ?>
             </ul>
-            
-
     <?php
     include "../app/views/footer.php";
     ?>
