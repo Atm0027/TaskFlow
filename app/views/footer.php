@@ -1,6 +1,11 @@
-        </main>
+    </main>
         <footer>
-            <p>&copy; 2023 My Application. All rights reserved.</p>
+            <p>© <?php echo date('Y'); ?> TaskFlow</p>
         </footer>
     </body>
 </html>
+
+
+
+
+
