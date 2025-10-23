@@ -1,5 +1,6 @@
-<footer>
-    <p>&copy; 2023 My Application. All rights reserved.</p>
-</footer>
-</body>
+        </main>
+        <footer>
+            <p>&copy; 2023 My Application. All rights reserved.</p>
+        </footer>
+    </body>
 </html>
