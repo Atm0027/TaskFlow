@@ -12,6 +12,9 @@
             case "Baja":
                 $taskClasses .= " priority-baja";
                 break;
+            default:
+                $taskClasses = "";
+                break;
         }
 
         return $taskClasses;
