@@ -14,7 +14,7 @@
                 break;
             default:
                 $taskClasses = "";
-                echo '<script>alert("Prioridad de Clase No Válida");</script>';
+                echo '<script>console.log("Prioridad de Clase No Válida");</script>';
                 break;
         }
 
