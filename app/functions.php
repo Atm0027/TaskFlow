@@ -1,11 +1,8 @@
 <?php
-    function obtenerClasePrioridad($task) {
-        $taskClasses = "task-item";
-        if ($task["completed"]) {
-            $taskClasses .= " completed";
-        }
+    function obtenerClasePrioridad($prioridad) {
+        $taskClasses = "";
         
-        switch ($task["priority"]) {
+        switch ($prioridad) {
             case "Alta":
                 $taskClasses .= " priority-alta";
                 break;
@@ -20,7 +17,13 @@
         return $taskClasses;
     }
 
-    function renderizarTarea($task) {   
-        return  "<li class='" . obtenerClasePrioridad($task) . "'> " . $task["title"] . " </li>";
+    function renderizarTarea($task) {
+        $taskClasses = "task-item";
+        if ($task["completed"]) {
+            $taskClasses .= " completed";
+        }
+        $taskClasses .= obtenerClasePrioridad($task["priority"]);
+
+        return  "<li class='" . htmlspecialchars($taskClasses, ENT_QUOTES, 'UTF-8') . "'> " . htmlspecialchars($task["title"], ENT_QUOTES, 'UTF-8') . " </li>";
     }
 ?>
