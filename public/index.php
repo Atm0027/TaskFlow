@@ -1,28 +1,54 @@
 <?php
     define("SITE_NAME", "TaskFlow");
     $pageTitle = SITE_NAME . " - Página de Inicio";
-    $tasks = [
-        ["title" => "Configurar el entorno de desarrollo", "completed" => true, "priority" => "Alta"],
-        ["title" => "Crear la estructura de carpetas", "completed" => true, "priority" => "Media"],
-        ["title" => "Diseñar la base de datos", "completed" => false, "priority" => "Media"],
-        ["title" => "Implementar el sistema de login", "completed" => false, "priority" => "Alta"],
-        ["title" => "Crear la vista de tareas", "completed" => false, "priority" => "Baja"]
-        
-    ];
     
-    require_once "../app/functions.php";
-    include "../app/views/header.php";
-?>  
-       
-            <h2>Tareas Pendientes</h2>
+   // 1. Cargar todas nuestras herramientas
+    require_once '../app/functions.php'; // Funciones de la PE3
+    require_once '../app/data.php'; // Nuestro "Modelo" de datos
+    require_once '../app/controllers/AuthController.php'; // Nuestro "Controlador" de autenticación
 
-            <ul>
-                <?php
-                    foreach ($tasks as $task) {
-                        echo renderizarTarea($task);
-                    }
-                ?>
-            </ul>
-    <?php
-    include "../app/views/footer.php";
-    ?>
+    // 2. Lógica del Router (Controlador Frontal)
+    $accion = $_GET['accion'] ?? 'login'; // Acción por defecto: 'login'
+    switch ($accion) {
+        case 'login':
+            // Lógica para procesar el envío del formulario de login
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $email = $_POST['email'];
+                $password = $_POST['password'];
+                if (handleLogin($email, $password, $usuarios_bbdd)) {
+                    header('Location: index.php?accion=dashboard'); // Redirige al dashboard
+                    exit;
+                } else {
+                    $error = "Credenciales incorrectas."; // Variable para la vista
+                }
+            }
+            // Si no es POST o el login falla, muestra la vista de login
+            include '../app/views/login.view.php';
+            break;
+
+        case 'dashboard':
+            // Protección de la ruta (Tema 5)
+            if (!checkAuth()) {
+                header('Location: index.php?accion=login');
+                exit;
+            }
+            
+            // Si estamos autenticados, preparamos los datos para la vista
+            $tasks = [
+                ['title' => 'Implementar Login', 'completed' => true, 'priority' => 'Alta'],
+                ['title' => 'Añadir Pruebas Unitarias', 'completed' => false, 'priority' => 'Media']
+            ];
+
+            // Cargamos la vista del dashboard
+            include '../app/views/tareas.view.php';
+            break;
+
+        case 'logout':
+            handleLogout();
+            break;
+
+        default:
+            echo "Error 404: Página no encontrada.";
+            break;
+    }
+?>
